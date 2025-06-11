@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your App Name</title>
+  <style>
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #2a5298);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+      color: #eee;
+      overflow: hidden; /* Hide scrollbar */
+      scroll-behavior: smooth;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      background: rgba(30, 30, 30, 0.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+    header:hover {
+      background: rgba(30, 30, 30, 0.8);
+    }
+    header .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #00bfff;
+      cursor: pointer;
+      user-select: none;
+    }
+    nav a {
+      color: #eee;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #00bfff;
+    }
+
+    main {
+      height: 100vh;
+      position: relative;
+      scroll-snap-type: y mandatory;
+      overflow: hidden; /* Hide scrollbar, disable native scroll */
+    }
+
+    /* Container for all pages stacked vertically */
+    #pagesContainer {
+      height: 300vh; /* 3 pages x 100vh */
+      width: 100%;
+      transition: transform 0.5s ease;
+    }
+
+    section {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      scroll-snap-align: start;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    /* Different backgrounds for each page */
+    #page1 { background: rgba(30,30,30,0.6); }
+    #page2 { background: rgba(30,30,50,0.8); }
+    #page3 { background: rgba(50,30,30,0.8); }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #00bfff;
+      text-shadow: 0 0 8px #00bfffaa;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #ccc;
+      text-shadow: 0 0 5px #00000088;
+    }
+    .download-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 4rem;
+      width: 260px;
+    }
+    .download-btn {
+      background: #00bfff;
+      color: #121212;
+      padding: 1rem 2.5rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      box-shadow: 0 6px 20px #00bfffbb;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .download-btn:hover {
+      background: #0096dd;
+      box-shadow: 0 8px 30px #0096ddcc;
+    }
+
+    /* Right side vertical page indicator */
+    #pageIndicator {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 1100;
+    }
+    #pageIndicator button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid #00bfff88;
+      background: transparent;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    #pageIndicator button.active {
+      box-shadow: 0 0 12px 3px #00bfff;
+      background-color: #00bfffaa;
+      border-color: #00bfff;
+    }
+
+    /* Added styles for the new text on page1 */
+    #page1 h1 {
+      margin-bottom: 0.5rem;
+    }
+    #page1 p {
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 1rem;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  nav a {
+    margin: 0.5rem 0;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .download-container {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .download-btn {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+
+  #pageIndicator {
+    right: 10px;
+    gap: 0.7rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">YourApp</div>
+    <nav>
+      <a href="#" onclick="goToPage(0)">Download</a>
+      <a href="#" onclick="goToPage(1)">Features</a>
+      <a href="#" onclick="goToPage(2)">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <div id="pagesContainer">
+      <section id="page1">
+        <h1>Welcome to our techTok App Technology</h1>
+        <div class="download-container">
+          <a class="download-btn" href="https://www.mediafire.com/file/b4uzj7xwto41q3h/TikTokLiveRealtime.zip/file" download>Download Now</a>
+        </div>
+      </section>
+      <section id="page2">
+        <h1>Features</h1>
+        <p>Download our amazing app to enhance your experience!</p>
+      </section>
+      <section id="page3">
+        <h1>Contact Us</h1>
+        <p>Feel free to reach out for any questions or feedback!</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="pageIndicator">
+    <button data-page="0" class="active" aria-label="Page 1" onclick="goToPage(0)"></button>
+    <button data-page="1" aria-label="Page 2" onclick="goToPage(1)"></button>
+    <button data-page="2" aria-label="Page 3" onclick="goToPage(2)"></button>
+  </div>
+
+  <script>
+    const pagesContainer = document.getElementById('pagesContainer');
+    const buttons = document.querySelectorAll('#pageIndicator button');
+
+    let currentPage = 0;
+
+    function updateIndicator() {
+      buttons.forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === currentPage);
+      });
+    }
+
+    function goToPage(page) {
+      if (page < 0 || page > 2) return;
+      currentPage = page;
+      pagesContainer.style.transform = `translateY(-${page * 100}vh)`;
+      updateIndicator();
+    }
+
+    // Optional: handle mouse wheel to scroll pages manually
+    let isThrottled = false;
+    window.addEventListener('wheel', e => {
+      if (isThrottled) return;
+      isThrottled = true;
+      setTimeout(() => { isThrottled = false; }, 600);
+
+      if (e.deltaY > 0) {
+        // Scroll down
+        if(currentPage < 2) {
+          goToPage(currentPage + 1);
+        }
+      } else {
+        // Scroll up
+        if(currentPage > 0) {
+          goToPage(currentPage - 1);
+        }
+      }
+    });
+
+    // Init
+    updateIndicator();
+  </script>
+</body>
+</html>
